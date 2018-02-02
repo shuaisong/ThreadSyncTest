@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         button = (Button) findViewById(R.id.button);
         final TicketRunnable R = new TicketRunnable();
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
