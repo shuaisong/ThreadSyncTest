@@ -7,7 +7,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     int i= 1;
-   private  TicketRunnable mR = new TicketRunnable();
+   private  TicketRunnable mR = new TicketRunnable(5);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Thread thread1;
         Thread thread2;
         thread1 = new Thread(mR,"业务员"+ i);
+        i++;
         thread2 = new Thread(mR,"业务员"+ i);
+        i++;
         thread1.start();
         thread2.start();
     }
