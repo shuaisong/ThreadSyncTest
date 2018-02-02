@@ -6,26 +6,20 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Button button;
-    private Thread thread1;
-    private Thread thread2;
-
+    int i= 1;
+   private  TicketRunnable mR = new TicketRunnable();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = (Button) findViewById(R.id.button);
-        final TicketRunnable R = new TicketRunnable();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                thread1 = new Thread(R,"业务员1");
-                thread2 = new Thread(R,"业务员2");
-                thread1.start();
-                thread2.start();
-            }
-        });
     }
 
+    public void click(View view) {
+        Thread thread1;
+        Thread thread2;
+        thread1 = new Thread(mR,"业务员"+ i);
+        thread2 = new Thread(mR,"业务员"+ i);
+        thread1.start();
+        thread2.start();
+    }
 }
