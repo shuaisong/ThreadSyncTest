@@ -2,12 +2,18 @@ package com.example.lianxiang.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
+import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends AppCompatActivity {
-    int i= 1;
-   private  TicketRunnable mR = new TicketRunnable(5);
+    private static final String TAG = "MyTag";
+    int i = 5;
+    int sum=5;
+    Ticket ticket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,13 +21,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click(View view) {
+        Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
+        int num = allStackTraces.size();
+        int activeCount = Thread.activeCount();
+        Log.d(TAG, "click: "+num+"activeCount:"+activeCount);
         Thread thread1;
-        Thread thread2;
-        thread1 = new Thread(mR,"业务员"+ i);
-        i++;
-        thread2 = new Thread(mR,"业务员"+ i);
-        i++;
-        thread1.start();
-        thread2.start();
+        ticket = new Ticket(sum--);
+        synchronized (ticket) {
+            thread1 = new TicketThread("业务员" + this.i, ticket);
+            this.i++;
+            thread1.start();
+        }
     }
 }
