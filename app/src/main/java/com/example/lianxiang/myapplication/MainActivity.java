@@ -6,14 +6,12 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.Map;
-import java.util.concurrent.ThreadPoolExecutor;
 
+@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MyTag";
     int i = 5;
-    int sum=5;
-    Ticket ticket;
-
+    int sum = 5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
         Map<Thread, StackTraceElement[]> allStackTraces = Thread.getAllStackTraces();
         int num = allStackTraces.size();
         int activeCount = Thread.activeCount();
-        Log.d(TAG, "click: "+num+"activeCount:"+activeCount);
+        Log.d(TAG, "click: "+ num + "activeCount:"+activeCount);
         Thread thread1;
-        ticket = new Ticket(sum--);
+        final Ticket ticket = new Ticket(sum--);
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (ticket) {
             thread1 = new TicketThread("业务员" + this.i, ticket);
             this.i++;
